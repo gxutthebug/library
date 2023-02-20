@@ -8,8 +8,7 @@ export default new Vuex.Store({
   state: {
     user: getItem('TOUTIAO_USER'), // 将token储存在user里，后续判断用户是否登录只需要判断user是否为空值
     // 初始化时直接从本地存储中取出
-    student:{}
-    
+    student:{},
   },
   getters: {
   },

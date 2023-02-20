@@ -6,24 +6,14 @@
   <el-col :span="6"> <i class="el-icon-notebook-2 book"></i></el-col>
   <el-col :span="7" :offset="4"> <span class="title">图书馆座位预定</span></el-col>
   <el-col :span="4" :offset="3"> 
-    <el-button type="primary" round @click="outlogin" v-if="$store.state.user">退出登录</el-button>
+    <el-button type="primary" round @click="outlogin" v-if="$store.state.user">网页刷新请重新登录</el-button>
     <el-button type="primary" round  @click="login" v-else>用户登录</el-button>
   </el-col>
 </el-row>
   </el-header>
 
-
   <router-view/>
-  <!-- <el-container><el-main> 
-      <el-tabs tab-position="left" style="height: 200px;">
-    <el-tab-pane label="用户管理"></el-tab-pane>
-    <el-tab-pane label="教室空位查看"></el-tab-pane>
-    <el-tab-pane label="角色管理"></el-tab-pane>
-    <el-tab-pane label="定时任务"></el-tab-pane>
-    <el-tab-pane label="定时任务"></el-tab-pane>
-    </el-tabs>
-    </el-main></el-container> -->
-   
+  
   <el-footer>footers</el-footer>
 </el-container>
    </div>

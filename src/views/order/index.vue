@@ -29,7 +29,7 @@
     start-placeholder="开始时间"
     end-placeholder="结束时间"
     placeholder="选择时间范围"
-    @change="fn">
+    @change="selectTimefn">
   </el-time-picker>
   <el-button type="success" round  @click="order">确认预订</el-button>
 </div>
@@ -39,6 +39,7 @@
 <script>
 import { postorder } from '@/api/postorder'
 import { getorder } from '@/api/getorder'
+import { getmyorder } from "@/api/getmyorder"
 
 export default {
   name: 'Order',
@@ -55,31 +56,41 @@ export default {
         endtime:'',
         status:0
       },
-      flag:0,
+      myorders:[],
       orderlist:[]
     }
   },
   computed: {},
   watch: {},
   async created () {
-    const data = await getorder(this.$route.params.seatid)
-    this.orderlist = data.data
-    console.log('打印预定列表')
-    console.log(this.orderlist)
+   this.getdata()
+   this.getownorders()
   },
   mounted () {},
   methods: {
+    
+   async getdata() {
+       const data = await getorder(this.$route.params.seatid)
+    this.orderlist = data.data
+    console.log('打印预定列表4444')
+    console.log(this.orderlist)
+    },
 
-    fn () {
+    async getownorders(){
+    const data = await getmyorder(this.$store.state.student.stuid)
+    console.log('我的订单列表')
+    this.myorders = data.data
+    console.log(this.myorders)
+    },
+
+    selectTimefn () {
       console.log('用户选择了时间')
-
 
      const src1 = this.$switchTime(this.value1[0])
      const src2 = this.$switchTime(this.value1[1])
      this.timepost.starttime = src1
      this.timepost.endtime = src2
      console.log(this.timepost.starttime,this.timepost.endtime)
-
 
       console.log('判断选择的时间区间是否与现有预定时间冲突-----并打印判断结果')
       console.log(this.ifmiddle(src1,src2))
@@ -98,6 +109,7 @@ export default {
       }
 
     },
+
     async order () {
       console.log('用户点击确认提交预订')
 
@@ -113,6 +125,15 @@ export default {
         return 
       }
 
+      if(this.myorders.length>=3){  // 判断是否有超过3条未完成预定(每人最多只能预定3次)
+        this.$notify({
+          title: '警告',
+          message: '你已经有3个未完成的预定,无法继续预定',
+          type: 'warning'
+        })
+        return 
+      }
+
       const data = await postorder(this.timepost)
       console.log(data)
 
@@ -122,6 +143,9 @@ export default {
           message: '恭喜你预定成功',
           type: 'success'
         })
+
+        this.getdata()    // 预定完成后即时更新一下数据
+        this.getownorders()
       } else {
         this.$notify({
           title: '警告',

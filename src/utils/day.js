@@ -7,9 +7,11 @@ import Vue from 'vue' // 引入VUE是为了定义一个号全局过滤器
 dayjs.locale('zh-cn') // 使引入的中文包全局生效
 dayjs.extend(relativeTime)
 
+// 测试一下format('YYYY-MM-DD HH:mm:ss')
 const day1 = new Date()
 console.log(day1)
 console.log(dayjs(day1).format('YYYY-MM-DD HH:mm:ss'))
+
 // console.log(day1.getTime())
 // console.log(dayjs().format('DD/MM/YYYY'))
 
@@ -47,10 +49,11 @@ export const switchTime = (date1) => {
   return src
 }
 
+// console.log('测试switchTime()')
 // console.log(switchTime(new Date()))
 
-console.log('测试比较函数')
-console.log(compareTime('2022-12-18 00:11:50','2022-12-15 00:12:50')||compareTime('2022-12-12 00:11:50','2022-12-15 00:12:50'))
+// console.log('测试比较函数')
+// console.log(compareTime('2022-12-18 00:11:50','2022-12-15 00:12:50')||compareTime('2022-12-12 00:11:50','2022-12-15 00:12:50'))
 
 Vue.filter('relativeTime', function (value) { // 定义一个全局过滤器,外部组件可以在模版中直接使用(不需要引入)
   // 返回处理后的值

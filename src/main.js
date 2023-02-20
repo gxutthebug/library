@@ -14,10 +14,10 @@ Vue.use(ElementUI);
 Vue.config.productionTip = false
 
 
-console.log("打印VUE")
-console.dir(Vue)
-console.log("打印VUE原型对象")
-console.log(Vue.prototype)
+// console.log("打印VUE")
+// console.dir(Vue)
+// console.log("打印VUE原型对象")
+// console.log(Vue.prototype)
 
 const vm = new Vue({
   router,
@@ -28,7 +28,7 @@ const vm = new Vue({
 
 
 
-console.log("打印vm对象")
-console.log(vm)
-console.log("通过vm打印原型对象")
-console.log(vm.__proto__)
+// console.log("打印vm对象")
+// console.log(vm)
+// console.log("通过vm打印原型对象")
+// console.log(vm.__proto__)

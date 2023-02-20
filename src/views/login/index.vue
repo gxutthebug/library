@@ -39,9 +39,10 @@
 
 <script>
 import { login } from "@/api/login";
+import { managelogin } from "@/api/managelogin";
 
 export default {
-  name: 'seats',
+  name: 'login',
   components: {},
   props: {},
   data () {
@@ -59,21 +60,45 @@ export default {
   mounted () {},
   methods: {
    async onSubmit() {
-        console.log("登录")
-        const data = await login(this.user)
-        console.log('打印登录信息')
-        console.log(data.data)
-        if(data.data.meta.status === 200){
+        if (this.value===''){
+          this.$alert('请选择登录身份', {
+          confirmButtonText: '确定',
+          callback: action => {
+            this.$message({
+              type: 'info',
+              message: `action: ${ action }`
+            })
+          }})
+        } else if(this.value==="学生") {
+          console.log("学生登录")
+          const data = await login(this.user)
+          console.log('打印登录信息')
+          console.log(data.data)
+          if(data.data.meta.status === 200){
           // console.log(data.data.data.data)
-          this.$store.commit('setUser', data.data.data.token)
-          this.$store.commit('setStudent', data.data.data.data)
-          this.$router.back()
+            this.$store.commit('setUser', data.data.data.token)
+            this.$store.commit('setStudent', data.data.data.data)
+            this.$router.push("layout")
+             } 
+          }else {
+          console.log("管理员登录")
+          const data = await managelogin(this.user.stuusername ,this.user.stupassword)
+          console.log('打印登录信息')
+          console.log(data.data)
+
+          if(data.data.code === 200){
+              this.$router.push("Manage")
+               }
+             }
+        
         }
+        
       },
+
       changeValue (e) {
       this.$forceUpdate()
     }
-  }
+  
 }
 </script>
 

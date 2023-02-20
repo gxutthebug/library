@@ -75,6 +75,8 @@
 import  ClassRoom  from "@/components/classroom";
 import { getmyorder } from "@/api/getmyorder"
 import { sign , getout } from "@/api/update"
+import { seatregister } from "@/api/seatregister";
+import { seatback } from "@/api/seatback";
 
 export default {
   name: 'Tabs',
@@ -100,23 +102,44 @@ export default {
     checkroom () {
       console.log("查询所有教室")
     },
+
     testfn (event) {
       console.log("触发了点击事件2")
       console.log(event.target)
     },
+
     async handleClick(row) {
+      console.log("我点了签到")
        const data = await sign(row.orderid)
        if (data.status === 200) {
-          alert('签到成功')
+       console.log(row.seatid)
+       const data = await seatregister(row.seatid)
+       console.log("aaa")
+       console.log(data)
+       console.log('签到成功')
+
+       // 更新视图
+       const data2 = await getmyorder(this.$store.state.student.stuid)
+       console.log('我的订单列表')
+       this.myorders = data2.data
        }
-        console.log(row);
       },
-      async handleClick2(row) {
+
+    async handleClick2(row) {
+      console.log("我点了签退")
         const data = await getout(row.orderid)
         if (data.status === 200) {
-          alert('签退成功')
+          console.log(row.seatid)
+          const data = await seatback(row.seatid)
+          console.log("aaa")
+          console.log(data)
+          console.log('签退成功')
+
+           // 更新视图
+       const data2 = await getmyorder(this.$store.state.student.stuid)
+       console.log('我的订单列表')
+       this.myorders = data2.data
        }
-        console.log(row);
       }
   }
   // mixins: [mixobj1]
